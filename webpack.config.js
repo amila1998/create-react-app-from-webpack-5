@@ -7,15 +7,21 @@ module.exports={
         path: path.join(__dirname, '/dist'),
         filename: 'bundle.js',
         publicPath: '/',
+        assetModuleFilename: "assets/img/[hash][ext][query]",
     },
     plugins: [
         new HTMLWebpackPlugin({
             template: './src/index.html',
+            favicon:"./src/asserts/images/logo.ico",
         }),
         new MiniCssExtractPlugin(),
     ],
     module: {
         rules: [
+            {                
+                test: /\.(png|jpe?g|gif|svg)$/i,                   
+                type: "asset",                                     
+            },
             {                
                 test: /\.(s[ac]|c)ss$/i,                
                 use: [                  {                    
@@ -46,7 +52,11 @@ module.exports={
         historyApiFallback: {
           disableDotRule: true
         },
+        proxy: {       
+            '/api': 'http://localhost:8000',          
+           changeOrigin:true,
+        },
     },
-
+    
 
 }
